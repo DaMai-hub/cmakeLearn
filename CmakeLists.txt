@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR) # [限制最低cmake版本]
+
+project(cmakeLearn
+    VERSION                 0.0.1
+    DESCRIPTION             "cmake demo"
+    HOMEPAGE_URL            "no_url"
+    LANGUAGES               C CXX
+)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(buildInfo)
+
+add_subdirectory(docs)
+add_subdirectory(example)
+add_subdirectory(external)
+add_subdirectory(package)
+add_subdirectory(src)
+add_subdirectory(test)
+
+# [缓存变量，如果已经生成这个变量；就会直接读取，即便是重新set，也不会进行修改[FORCE可以强制更改]]
+# set(CACHE_TEST TRUE CACHE BOOL "test info")
+# message(STATUS "CACHE_TEST = ${CACHE_TEST}")
+# option(CACHE_TEST "test info" FALSE)
