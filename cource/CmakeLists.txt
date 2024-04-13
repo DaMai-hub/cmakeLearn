@@ -5,8 +5,78 @@ project(001)
 add_subdirectory(scopeTest)
 
 message(STATUS "top A = ${A}")
+message(STATUS "top B = ${B}")
+
+function(testFunc)
+    set(C "ccc")
+    message(STATUS "func C = ${C}")
+endfunction(testFunc)
+
+testFunc()
+message(STATUS "top C = ${C}")
 
 # [不会影响系统环境变量]
 # set(ENV{GIT_PATH} "user/ls")
 # message(STATUS "GIT_PATH=${GIT_PATH}")
 # message(STATUS "GIT_PATH=$ENV{GIT_PATH}")
+
+#----------------------------
+message(STATUS "----------------------------")
+
+# set(x 1)
+
+# block()
+#     set(x 2)   # Shadows outer "x"
+#     set(y 3)   # Local, not visible outside the block
+#     message(STATUS "x = ${x}")
+#     message(STATUS "y = ${y}")
+# endblock()
+
+# message(STATUS "top x = ${x}")
+# message(STATUS "top y = ${y}")
+
+# #----------------------------
+# set(x 1)
+# set(y 3)
+
+# block()
+#     set(x 2 PARENT_SCOPE)
+#     unset(y PARENT_SCOPE)
+#     # x still has the value 1 here
+#     # y still exists and has the value 3
+#     message(STATUS "x = ${x}")
+#     message(STATUS "y = ${y}")
+# endblock()
+
+
+# message(STATUS "top x = ${x}")
+# message(STATUS "top y = ${y}")
+#----------------------------
+set(x 1)
+set(z 5)
+
+# [PROPAGATE]传播功能可以在子作用域直接修改父作用域的变量
+block(PROPAGATE x z)
+    set(x 2) # Gets propagated back out to the outer "x"
+    set(y 3) # Local, not visible outside the block
+    unset(z) # Unsets the outer "z" too
+    message(STATUS "x = ${x}")
+    message(STATUS "y = ${y}")
+    message(STATUS "z = ${z}")
+endblock()
+
+message(STATUS "top x = ${x}")
+message(STATUS "top z = ${z}")
+
+#----------------------------
+set(x 1)
+set(z 5)
+
+block(SCOPE_FOR VARIABLES PROPAGATE x z)
+    set(x 2) # Gets propagated back out to the outer "x"
+    set(y 3) # Local variable, not visible outside the block
+    unset(z) # Unsets the outer "z" too
+endblock()
+
+
+

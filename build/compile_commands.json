@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/Cmake_APP/download/cmakeLearn/build/src",
+  "command": "D:\\Cmake_APP\\minGW\\bin\\gcc.exe   -g -o CMakeFiles\\cmakeLearn.dir\\main.c.obj -c D:\\Cmake_APP\\download\\cmakeLearn\\src\\main.c",
+  "file": "D:/Cmake_APP/download/cmakeLearn/src/main.c"
+}
+]

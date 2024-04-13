@@ -1,0 +1,3 @@
+D:\Cmake_APP\program\bin\cmake.exe -E rm -f CMakeFiles\cmakeLearn.dir/objects.a
+D:\Cmake_APP\minGW\bin\ar.exe qc CMakeFiles\cmakeLearn.dir/objects.a @CMakeFiles\cmakeLearn.dir\objects1
+D:\Cmake_APP\minGW\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\cmakeLearn.dir/objects.a -Wl,--no-whole-archive -o cmakeLearn.exe -Wl,--out-implib,libcmakeLearn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmakeLearn.dir\linkLibs.rsp

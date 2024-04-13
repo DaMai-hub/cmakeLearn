@@ -8,6 +8,8 @@
     cmake -S . -B build
     ```
 
+    ![Alt text](image/cmake_00.png)
+
 ## (2)<font color=#FFE4B5>cmake_target</font>
 
   * 定义一个可以构建成可执行程序的target
@@ -211,6 +213,56 @@
     在 C/C++ 中，我们可以使用 {}、函数、类等产生新的作用域，同时也有全局作用域的概念。在 CMake 中，通常只有在使用 add_subdirectory() 命令或者定义函数的时候产生新的作用域
     自 CMake 3.25 开始，可以使用 block() 在任意位置产生新的作用域
     在定义 CMake 普通变量的时候，如果没有 PARENT_SCOPE 选项，那该变量的作用域就在当前的 CMakeLists.txt 中或者在当前的函数，或者当前的 block() 中
+
+    block([SCOPE_FOR [VARIABLES] [POLICIES]] [PROPAGATE var...])
+    endblock()
+    该命令需要 cmake >= 3.25 版本
+    该命令用于创建新的作用域（变量作用域、策略作用域）
+
+    e.g
+    set(x 1)
+
+    block()
+        set(x 2)   # Shadows outer "x"
+        set(y 3)   # Local, not visible outside the block
+    endblock()
+
+    ----------------------------
+    set(x 1)
+    set(y 3)
+
+    block()
+        set(x 2 PARENT_SCOPE)
+        unset(y PARENT_SCOPE)
+        # x still has the value 1 here
+        # y still exists and has the value 3
+    endblock()
+
+    ----------------------------
+    set(x 1)
+    set(z 5)
+
+    block(PROPAGATE x z)
+        set(x 2) # Gets propagated back out to the outer "x"
+        set(y 3) # Local, not visible outside the block
+        unset(z) # Unsets the outer "z" too
+    endblock()
+
+    ----------------------------
+    set(x 1)
+    set(z 5)
+
+    block(SCOPE_FOR VARIABLES PROPAGATE x z)
+        set(x 2) # Gets propagated back out to the outer "x"
+        set(y 3) # Local variable, not visible outside the block
+        unset(z) # Unsets the outer "z" too
+    endblock()
+
+    传递规则
+    1、父模块里定义的变量，会传递给子模块；子模块里定义的变量不会传递给父模块
+    如果父模块里定义了同名变量，则离开子模块后保持父模块原来的设定值
+    2、PARENT_SCOPE 把一个变量传递到上一层作用域(父模块)，子作用域不产生影响
+    参考"set_parent_scope.zip.html"用法
     ```
 
   * cmake变量总结

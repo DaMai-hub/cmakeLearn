@@ -2,4 +2,7 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 
 set(A "aa" PARENT_SCOPE)
+set(B "bb")
+
 message(STATUS "low A = ${A}")
+message(STATUS "low B = ${B}")

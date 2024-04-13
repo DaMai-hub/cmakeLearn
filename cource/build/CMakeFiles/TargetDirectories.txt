@@ -1,0 +1,4 @@
+D:/Cmake_APP/download/cmakeLearn/cource/build/CMakeFiles/edit_cache.dir
+D:/Cmake_APP/download/cmakeLearn/cource/build/CMakeFiles/rebuild_cache.dir
+D:/Cmake_APP/download/cmakeLearn/cource/build/scopeTest/CMakeFiles/edit_cache.dir
+D:/Cmake_APP/download/cmakeLearn/cource/build/scopeTest/CMakeFiles/rebuild_cache.dir
