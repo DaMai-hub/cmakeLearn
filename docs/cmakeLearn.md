@@ -119,7 +119,7 @@
     5、target_link_libraries() 总是指明 PRIVATE、PUBLIC 、INTERFACE
     ```
 
-  ## (3)<font color=#FFE4B5>cmake_base</font>
+  ## (3)<font color=#FFE4B5>cmake_variable</font>
 
   * CMake 变量的约定
     * CMake 将所有的变量的值视为字符串当给出变量的值不包含空格的时候，可以不使用引号，但建议都加上引号，不然一些奇怪的问题很难调试。
@@ -270,5 +270,83 @@
     ```
     1、普通变量适用于变量的值相对固定，而且只在某一个很小的作用域生效的场景
     2、缓存变量适用于其值可以随时更改，作用域为全局的情况。经常在 CMake 中定义缓存变量，给一个默认值，如果用户想要更改缓存变量的值，可以通过 cmake -D 变量=ON 的形式去更改
-    3、
+
+    e.g
+    unset(foo)
+    set(foo)
+    set(foo "")
+    如果要将一个变量的值设置为空字符串，请使用第三行的方式
+
+    3、打印变量的值
+    message()
+    ```
+
+    ## (4)<font color=#FFE4B5>cmake_string</font>
+
+    ```
+    # 字符串查找和替换
+    string(FIND <string> <substring> <out-var> [...])
+    string(REPLACE <match-string> <replace-string> <out-var> <input>...)
+    string(REGEX MATCH <match-regex> <out-var> <input>...)
+    string(REGEX MATCHALL <match-regex> <out-var> <input>...)
+    string(REGEX REPLACE <match-regex> <replace-expr> <out-var> <input>...)
+
+    # 操作字符串
+    string(APPEND <string-var> [<input>...])
+    string(PREPEND <string-var> [<input>...])
+    string(CONCAT <out-var> [<input>...])
+    string(JOIN <glue> <out-var> [<input>...])
+    string(TOLOWER <string> <out-var>)
+    string(TOUPPER <string> <out-var>)
+    string(LENGTH <string> <out-var>)
+    string(SUBSTRING <string> <begin> <length> <out-var>)
+    string(STRIP <string> <out-var>)
+    string(GENEX_STRIP <string> <out-var>)
+    string(REPEAT <string> <count> <out-var>)
+
+    # 字符串比较
+    string(COMPARE <op> <string1> <string2> <out-var>)
+
+    # 计算字符串的 hash 值
+    string(<HASH> <out-var> <input>)
+
+    # 生成字符串
+    string(ASCII <number>... <out-var>)
+    string(HEX <string> <out-var>)
+    string(CONFIGURE <string> <out-var> [...])
+    string(MAKE_C_IDENTIFIER <string> <out-var>)
+    string(RANDOM [<option>...] <out-var>)
+    string(TIMESTAMP <out-var> [<format string>] [UTC])
+    string(UUID <out-var> ...)
+
+    # json 相关的字符串操作
+    string(JSON <out-var> [ERROR_VARIABLE <error-var>]
+            {GET | TYPE | LENGTH | REMOVE}
+            <json-string> <member|index> [<member|index> ...])
+    string(JSON <out-var> [ERROR_VARIABLE <error-var>]
+            MEMBER <json-string>
+            [<member|index> ...] <index>)
+    string(JSON <out-var> [ERROR_VARIABLE <error-var>]
+            SET <json-string>
+            <member|index> [<member|index> ...] <value>)
+    string(JSON <out-var> [ERROR_VARIABLE <error-var>]
+            EQUAL <json-string1> <json-string2>)
+    ```
+
+  * 字符串查找
+
+    ```
+    string(FIND inputString subString outVar [REVERSE])
+
+    1、在 inputString 中查找 subString，将查找到的索引存在 outVar 中，索引从 0 开始
+    2、如果没有 REVERSE 选项，则保存第一个查找到的索引，否则保存最后一个查找到的索引
+    3、如果没有找到，则保存 -1
+    需要注意的是，string(FIND) 将所有字符串都作为 ASCII 字符，outVar 中存储的索引也会以字节为单位计算，因此包含多字节字符的字符串可能会导致意想不到的结果
+
+    e.g
+    string(FIND abcdefabcdef def fwdIndex)
+    string(FIND abcdefabcdef def revIndex REVERSE)
+    message("fwdIndex = ${fwdIndex}\n"
+            "revIndex = ${revIndex}")
+
     ```

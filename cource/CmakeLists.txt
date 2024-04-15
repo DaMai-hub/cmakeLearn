@@ -2,18 +2,20 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 project(001)
 
+
+# ------------[变量问题]------------
 add_subdirectory(scopeTest)
 
-message(STATUS "top A = ${A}")
-message(STATUS "top B = ${B}")
+# message(STATUS "top A = ${A}")
+# message(STATUS "top B = ${B}")
 
-function(testFunc)
-    set(C "ccc")
-    message(STATUS "func C = ${C}")
-endfunction(testFunc)
+# function(testFunc)
+#     set(C "ccc")
+#     message(STATUS "func C = ${C}")
+# endfunction(testFunc)
 
-testFunc()
-message(STATUS "top C = ${C}")
+# testFunc()
+# message(STATUS "top C = ${C}")
 
 # [不会影响系统环境变量]
 # set(ENV{GIT_PATH} "user/ls")
@@ -21,8 +23,6 @@ message(STATUS "top C = ${C}")
 # message(STATUS "GIT_PATH=$ENV{GIT_PATH}")
 
 #----------------------------
-message(STATUS "----------------------------")
-
 # set(x 1)
 
 # block()
@@ -48,35 +48,53 @@ message(STATUS "----------------------------")
 #     message(STATUS "y = ${y}")
 # endblock()
 
+# message(STATUS "top x = ${x}")
+# message(STATUS "top y = ${y}")
+
+# #----------------------------
+# set(x 1)
+# set(z 5)
+
+# # [PROPAGATE]传播功能可以在子作用域直接修改父作用域的变量
+# block(PROPAGATE x z)
+#     set(x 2) # Gets propagated back out to the outer "x"
+#     set(y 3) # Local, not visible outside the block
+#     unset(z) # Unsets the outer "z" too
+#     message(STATUS "x = ${x}")
+#     message(STATUS "y = ${y}")
+#     message(STATUS "z = ${z}")
+# endblock()
 
 # message(STATUS "top x = ${x}")
 # message(STATUS "top y = ${y}")
-#----------------------------
-set(x 1)
-set(z 5)
+# message(STATUS "top z = ${z}")
 
-# [PROPAGATE]传播功能可以在子作用域直接修改父作用域的变量
-block(PROPAGATE x z)
-    set(x 2) # Gets propagated back out to the outer "x"
-    set(y 3) # Local, not visible outside the block
-    unset(z) # Unsets the outer "z" too
-    message(STATUS "x = ${x}")
-    message(STATUS "y = ${y}")
-    message(STATUS "z = ${z}")
-endblock()
+# #----------------------------
+# message(STATUS "test01")
+# set(x 1)
+# set(z 5)
 
-message(STATUS "top x = ${x}")
-message(STATUS "top z = ${z}")
+# block(SCOPE_FOR VARIABLES PROPAGATE x z)
+#     set(x 2) # Gets propagated back out to the outer "x"
+#     set(y 3) # Local variable, not visible outside the block
+#     unset(z) # Unsets the outer "z" too
 
-#----------------------------
-set(x 1)
-set(z 5)
+#     message(STATUS "x = ${x}")
+#     message(STATUS "y = ${y}")
+#     message(STATUS "z = ${z}")
+# endblock()
 
-block(SCOPE_FOR VARIABLES PROPAGATE x z)
-    set(x 2) # Gets propagated back out to the outer "x"
-    set(y 3) # Local variable, not visible outside the block
-    unset(z) # Unsets the outer "z" too
-endblock()
+# message(STATUS "top x = ${x}")
+# message(STATUS "top y = ${y}")
+# message(STATUS "top z = ${z}")
 
+# #----------------------------
+# message(STATUS "foo0 = <${foo}>")
+# unset(foo)
+# message(STATUS "foo0 = <${foo}>")
+# set(foo)
+# message(STATUS "foo1 = <${foo}>")
+# set(foo "")
+# message(STATUS "foo2 = <${foo}>")
 
-
+# ------------[string 问题]------------
