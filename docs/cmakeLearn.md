@@ -350,3 +350,41 @@
             "revIndex = ${revIndex}")
 
     ```
+
+  * 替换字符串
+
+    ```
+    string(REPLACE matchString replaceWith outVar input...)
+
+    1、将 input 中所有匹配 matchString 的都用 replaceWith 替换，并将结果保存到 outVar 中
+    2、如果 input 中没有匹配的，则 outVar 为空
+
+    正则方式替换字符串
+    string(REGEX MATCH    regex outVar input...)
+    string(REGEX MATCHALL regex outVar input...)
+    string(REGEX REPLACE  regex replaceWith outVar input...)
+
+    input 字符串同样会在开始匹配正则表达式前进行串联
+    MATCH 只查找第一个匹配的字符串，并保存到 outVar 中
+    MATCHALL 会查找所有匹配的字符串，并保存到 outVar 中，如果匹配到多个，outVar 将是一个列表，列表我们后面会讲
+    REPLACE 会将每一个匹配到的字符串用 replaceWith 替换后，将替换后的完整字符串放到 outVar 中
+
+    e.g
+    string(REGEX MATCH    "[ace]"           matchOne abcdefabcdef)
+    string(REGEX MATCHALL "[ace]"           matchAll abcdefabcdef)
+    string(REGEX REPLACE  "([de])" "X\\1Y"  replVar1 abc def abcdef)
+    string(REGEX REPLACE  "([de])" [[X\1Y]] replVar2 abcdefabcdef)
+    message("matchOne = ${matchOne}\n"
+            "matchAll = ${matchAll}\n"
+            "replVar1 = ${replVar1}\n"
+            "replVar2 = ${replVar2}")
+    ```
+
+  * 截取字符串
+
+    ```
+    string(SUBSTRING input index length outVar)
+
+    1、将 input 字符串从 index 处截取 length 长度放到 outVar 中
+    2、如果 length 为 -1 的话，将从 index 到 input 结尾的字符串串保存到 outVar 中
+    ```
